@@ -7,12 +7,12 @@
 graph LR
     query --graphql--> graphql-parser
     subgraph rewriter-pipeline
-    graphql-parser --json schema--> wasm-A 
-    graphql-parser --json schema--> wasm-B
-    graphql-parser --json schema--> wasm-X
-    wasm-A --json merge path--> graphqlFormater
-    wasm-B --json merge path--> graphqlFormater
-    wasm-X --json merge path--> graphqlFormater
+    graphql-parser --> plugin-A 
+    graphql-parser --> plugin-B
+    graphql-parser --> plugin-X
+    plugin-A --> graphqlFormater
+    plugin-B --> graphqlFormater
+    plugin-X --> graphqlFormater
     end
     graphqlFormater --format--new graphql--> dgraph[(graphql db)]
 ```
@@ -21,9 +21,10 @@ graph LR
 - gin
 - graphql
 - gqlparser
-- json-patch
-- wasmedge
-- wasmdege-bindgen
+- ~~json-patch~~
+- ~~wasmedge~~
+- ~~wasmdege-bindgen~~
+- golang plugin
 
 主要功能:
 

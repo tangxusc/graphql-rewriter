@@ -1,4 +1,4 @@
-package plugins
+package plugin_manager
 
 import (
 	"github.com/spf13/cobra"
@@ -9,6 +9,6 @@ var pluginDir string
 
 func InitFlags() {
 	config.RegisterFlags(func(c *cobra.Command) {
-		c.PersistentFlags().StringVar(&pluginDir, "plugins", "./plugins", "wasm plugins")
+		c.PersistentFlags().StringVar(&pluginDir, "plugins", "./plugins/*/", "wasm plugins")
 	})
 }

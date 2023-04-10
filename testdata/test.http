@@ -1,0 +1,8 @@
+###
+POST localhost:8080/graphql
+Content-Type: application/graphql
+
+query Bob { foo { ...Frag } }
+fragment Frag on Foo {
+    bar
+}
