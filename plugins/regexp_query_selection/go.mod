@@ -1,4 +1,4 @@
-module github.com/tangxusc/graphql-rewriter/plugins/print
+module github.com/tangxusc/graphql-rewriter/plugins/regexp_query_selection
 
 go 1.18
 

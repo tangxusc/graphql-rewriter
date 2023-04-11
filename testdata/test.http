@@ -2,7 +2,20 @@
 POST localhost:8080/graphql
 Content-Type: application/graphql
 
-query Bob { foo { ...Frag } }
-fragment Frag on Foo {
-    bar
+query MyQuery {
+  queryProduct {
+    name
+    abcdID
+  }
+}
+
+###
+POST http://192.168.31.12:8091/graphql
+Content-Type: application/graphql
+
+query MyQuery {
+	queryProduct: queryAbcd_Product {
+		name
+		abcdID
+	}
 }

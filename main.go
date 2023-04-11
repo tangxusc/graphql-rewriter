@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/tangxusc/graphql-rewriter/package/config"
 	"github.com/tangxusc/graphql-rewriter/package/plugin_manager"
+	"github.com/tangxusc/graphql-rewriter/package/rewriter"
 	"github.com/tangxusc/graphql-rewriter/package/web"
 	"math/rand"
 	"os"
@@ -36,6 +37,7 @@ func NewCommand() (*cobra.Command, context.Context, context.CancelFunc) {
 			}()
 			logrus.SetLevel(logrus.TraceLevel)
 			rand.Seed(time.Now().UnixNano())
+			logrus.Debugf("[viper]Viper settings:%+v", viper.AllSettings())
 			if err := plugin_manager.StartPlugins(ctx); err != nil {
 				return err
 			}
@@ -47,6 +49,7 @@ func NewCommand() (*cobra.Command, context.Context, context.CancelFunc) {
 		},
 	}
 
+	rewriter.InitFlags()
 	plugin_manager.InitFlags()
 	web.InitFlags()
 	config.InitFlags()

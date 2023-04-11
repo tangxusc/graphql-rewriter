@@ -1,3 +1,5 @@
 {
-  "tempdir": "/abcd"
+  "rewriteql_regexps": {
+    "^query(\\w+)$": "queryAbcd_$1"
+  }
 }

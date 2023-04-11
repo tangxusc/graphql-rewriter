@@ -8,6 +8,7 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.15.0
 	github.com/vektah/gqlparser v1.3.1
+	gopkg.in/errgo.v2 v2.1.0
 )
 
 require (
