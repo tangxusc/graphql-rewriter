@@ -1,0 +1,22 @@
+{
+  "name": "test Schema",
+  "schemaPath": "testdata/test-schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "proxy": {
+        "url": "http://localhost:8080/graphql",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "introspect": true
+      },
+      "remote": {
+        "url": "http://192.168.31.12:8091/graphql",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "introspect": true
+      }
+    }
+  }
+}

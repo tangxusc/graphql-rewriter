@@ -3,9 +3,8 @@ package web
 import (
 	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/graph-gophers/graphql-transport-ws/graphqlws"
 	"github.com/sirupsen/logrus"
-	"github.com/tangxusc/graphql-rewriter/package/rewriter"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -17,36 +16,12 @@ func StartWeb(ctx context.Context) error {
 		})
 	})
 
-	r.POST("/graphql", func(c *gin.Context) {
-		//get graphql header
-		header := c.GetHeader("Content-Type")
-		logrus.Infof("header content-type:%s", header)
-		//validate header is graphql
-		if header != "application/graphql" {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"message": "invalid header",
-			})
-			return
-		}
-		//read body
-		all, err := ioutil.ReadAll(c.Request.Body)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"message": "invalid body",
-			})
-			return
-		}
-		defer c.Request.Body.Close()
-
-		if err := rewriter.RewriteGraphql(c, all); err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"message": err.Error(),
-			})
-		}
-	})
+	graphQLHandler := graphqlws.NewHandlerFunc(&subscribeService{}, &handler{}, graphqlws.WithWriteTimeout(graphqlRequestTimeout))
+	r.POST("/graphql", gin.WrapF(graphQLHandler))
+	r.GET("/graphql", gin.WrapF(graphQLHandler))
 
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    webAddr,
 		Handler: r,
 	}
 	go func() {

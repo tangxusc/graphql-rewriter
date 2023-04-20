@@ -21,6 +21,7 @@ graph LR
 - gin
 - graphql
 - gqlparser
+- hasura/go-graphql-client
 - ~~json-patch~~
 - ~~wasmedge~~
 - ~~wasmdege-bindgen~~

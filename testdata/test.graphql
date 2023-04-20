@@ -1,0 +1,7 @@
+mutation test{
+    addProduct(input: {name: "test2"}){
+        product{
+            name
+        }
+    }
+}

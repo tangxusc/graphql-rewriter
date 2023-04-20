@@ -1,12 +1,22 @@
+### ping
+GET localhost:8080/ping
+
 ###
 POST localhost:8080/graphql
-Content-Type: application/graphql
+Content-Type: application/json
 
-query MyQuery {
-  queryProduct {
-    name
-    abcdID
-  }
+{
+  "query": "query MyQuery {\n  queryProduct {\n  name\n  abcdID\n}\n}",
+  "operationName": "test"
+}
+
+###
+POST http://192.168.31.12:8091/graphql
+Content-Type: application/json
+
+{
+  "query": "query queryProduct {\n  queryProduct: queryAbcd_Product {\n  name\n  abcdID\n}\n}",
+  "operationName": "queryProduct"
 }
 
 ###
