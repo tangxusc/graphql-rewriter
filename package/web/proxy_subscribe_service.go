@@ -21,6 +21,8 @@ func (s *subscribeService) Subscribe(ctx context.Context, document string, opera
 	c := make(chan interface{})
 	onError := func(sc *graphql.SubscriptionClient, err error) error {
 		logrus.Errorf("[remote-client]subscribe error:%v", err)
+		//close(c)
+		//sc.Unsubscribe(s.subscribeId)
 		sc.Close()
 		return err
 	}
@@ -39,7 +41,9 @@ func (s *subscribeService) Subscribe(ctx context.Context, document string, opera
 		select {
 		case <-ctx.Done():
 			logrus.Debugf("[remote-client]Unsubscribe Id:%s", s.subscribeId)
-			close(c)
+			if c != nil {
+				close(c)
+			}
 			client.Unsubscribe(s.subscribeId)
 			client.Close()
 		}
@@ -54,6 +58,9 @@ func (s *subscribeService) Subscribe(ctx context.Context, document string, opera
 		}()
 		if err != nil {
 			logrus.Debugf("[remote-client]subscribe client recever error:%v", err)
+			c <- err.Error()
+			close(c)
+			c = nil
 			return err
 		}
 		logrus.Debugf("[remote-client]subscribe client recever message:%s", string(message))
