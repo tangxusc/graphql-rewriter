@@ -2,7 +2,6 @@ package web
 
 import (
 	"context"
-	"encoding/json"
 	"github.com/hasura/go-graphql-client"
 	"github.com/sirupsen/logrus"
 	"github.com/tangxusc/graphql-rewriter/package/rewriter"
@@ -67,9 +66,10 @@ func (s *subscribeService) Subscribe(ctx context.Context, document string, opera
 		result, err := rewriter.RewriteResult(message)
 		if err != nil {
 			logrus.Errorf("[remote-client]🌶RewriteResult Error:%v", err)
+			c <- formatError(err)
 			return err
 		}
-		c <- json.RawMessage(result)
+		c <- formatData(result)
 		return nil
 	}
 	s.subscribeId, err = client.Exec(rewriteGraphql, variableValues, h)
