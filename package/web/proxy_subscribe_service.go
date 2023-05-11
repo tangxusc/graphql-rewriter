@@ -20,9 +20,9 @@ func (s *subscribeService) Subscribe(ctx context.Context, document string, opera
 	c := make(chan interface{})
 	onError := func(sc *graphql.SubscriptionClient, err error) error {
 		logrus.Errorf("[remote-client]subscribe error:%v", err)
-		//close(c)
 		//sc.Unsubscribe(s.subscribeId)
 		sc.Close()
+		close(c)
 		return err
 	}
 	client := graphql.
